@@ -1,0 +1,30 @@
+<div class="col-md-12 mt-3">
+	<h1>{{page_title}}</h1>
+
+	<hr>
+	
+	<div class="alert alert-success col-md-5 mt-3" *ngIf="status == 'success'">
+		La etiqueta se ha guardado correctamente !!		
+	</div>
+
+	<div class="alert alert-danger col-md-5" *ngIf="status == 'error'">
+		La etiqueta no se ha guardado !!	
+	</div>	
+
+	<!-- Formulario de etiquetas -->
+	<form class="col-md-5 ml-0 pl-0" #labelAddForm="ngForm" (ngSubmit)="onSubmit(labelAddForm)">
+
+		<div class="form-group">
+			<label for="name"><h5>Nombre de la etiqueta</h5></label>
+			<input type="text" name="name" class="form-control" #name="ngModel" [(ngModel)]="label.name"  required pattern="[A-Za-z0-9ñÑáéíóúàèòü@\s]+">
+
+			<small *ngIf="!name.valid && name.touched" class="invalid-feedback d-block">
+				La etiqueta no es válida
+			</small>
+		</div>
+						
+		<input type="submit" value="Agregar etiqueta" class="btn btn-primary" [disabled]="labelAddForm.invalid" />
+
+	</form>
+
+</div>

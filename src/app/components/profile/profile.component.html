@@ -1,0 +1,14 @@
+<div class="container-fluid mt-3">
+
+	<hr>
+	<div id="user-card">
+	    <div class="avatar_mask_profile float-left mr-3" *ngIf="identity.image">
+	       <img src="{{ url + 'user/avatar/' + identity.image }}" class="avatar_nav"/>
+	    </div>
+	    <div class="data-mask float-left">
+			<h1>{{ identity.name }} </h1>
+		</div>
+		<div class="clearfix"></div>
+	</div>
+
+</div>

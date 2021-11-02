@@ -1,0 +1,111 @@
+<div class="col-md-12 mt-3">
+	<h1>{{page_title}}</h1>
+	<p *ngIf="status != 'success'">
+		{{page_subTitle}}
+	</p>
+
+	<hr>
+	
+	<div class="alert alert-success col-md-5 mt-3" *ngIf="status == 'success'">
+		{{page_saveOk}}		
+	</div>
+
+	<div class="alert alert-danger col-md-5" *ngIf="status == 'error'">
+		{{page_saveKo}}
+	</div>	
+
+	<!-- Formulario de ajustes -->
+	<form class="col-md-8 ml-0 pl-0" #webAddForm="ngForm" (ngSubmit)="onSubmit(webAddForm)">
+
+		<!-- Botón que envía los datos del formulario -->
+		<input type="submit" value="{{page_submit}}" class="btn btn-primary" [disabled]="webAddForm.invalid" />
+		<small> (*) Datos obligatorios</small>
+
+		<br><br>
+
+		<!-- Sección de nombre y dirección web -->
+		<div class="row">
+			<div class="col">
+				<div class="form-group">
+					<label for="name"><h5>Nombre de la web (*)</h5></label>
+					<input type="text" name="name" class="form-control" #name="ngModel" [(ngModel)]="web.name"  required pattern="[A-Za-z0-9ñÑáéíóúàèòü@\s]+">
+
+					<small *ngIf="!name.valid && name.touched" class="invalid-feedback d-block">
+						El nombre no es válido
+					</small>
+				</div>
+			</div>
+
+			<div class="col">
+				<div class="form-group">
+					<label for="url"><h5>Dirección web (*)</h5></label>
+					<input type="url" name="url" class="form-control" #url="ngModel" [(ngModel)]="web.url"  required pattern="[^\s]+">
+
+					<small *ngIf="!url.valid && url.touched" class="invalid-feedback d-block">
+						La dirección no es válida
+					</small>
+				</div>
+			</div>
+		</div>
+
+		<!-- Sección opcional de las credenciales de la web -->
+		<div class="row">		
+			<div class="col">
+				<div class="form-group">
+					<label for="login"><h5>Login para identificarse en la web</h5></label>
+					<input type="text" name="login" class="form-control" #login="ngModel" [(ngModel)]="web.login">
+				</div>
+			</div>
+			<div class="col">
+				<div class="form-group">
+					<label for="password"><h5>Contraseña para identificarse en la web</h5></label>
+					<input type="text" name="password" class="form-control" #password="ngModel" [(ngModel)]="web.password">
+				</div>
+			</div>
+		</div>
+
+		<!-- Sección opcional de etiquetas y comentario -->
+		<div class="row">
+			<div class="col">
+				<div class="form-group">
+					<label for="comment"><h5>Seleccionar etiquetas</h5></label>										
+					<div col-md-8>
+						<form class="form-inline">
+							<div class="input-group">								
+							  <select #selectLabel class="custom-select" id="label" [(ngModel)]="addedLabel" name="label">
+							    <option *ngFor="let label of labels | arraySorted: 'name'" [(value)]="label.id">
+							    	{{ label.name }}
+							    </option>
+							  </select>
+							 <div class="input-group-append">
+							    <button class="btn btn-outline-secondary" type="submit" (click)="addLabel(selectLabel.value, selectLabel.options[selectLabel.selectedIndex].innerText)">Añadir</button>
+							  </div>
+							</div>
+						</form>
+					</div>
+					<br>
+					<div col-md-8 *ngFor="let addLabel of addLabels">
+						<form class="form-inline">
+							<button class="badge badge-info" type="button" (click)="removeLabel(addLabel)">{{addLabel.name}}</button>
+						</form>
+					</div>
+				</div>
+			</div>
+
+			<div class="col">
+				<div class="form-group">
+					<div col-md-10>
+					<div class="form-group">
+						<label for="comment"><h5>Comentario</h5></label>
+						<textarea [ngxSummernote]="ngxSummernote_config" name="comment" #comment="ngModel" [(ngModel)]="web.comment"></textarea>
+
+					</div>
+					</div>
+				</div>
+			</div>
+		</div>		
+
+	<!-- Fin del formulario -->
+	</form>
+
+</div>
